@@ -1,0 +1,72 @@
+# ============================================================
+#   AI Study Planner — Root .gitignore
+# ============================================================
+
+# ---- Environment Variables (NEVER commit these) ------------
+.env
+.env.local
+.env.development
+.env.production
+.env.staging
+
+# ---- Node / NPM -----------------------------------------------
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+.npm
+.pnpm-store/
+
+# ---- Build Outputs --------------------------------------------
+dist/
+dist-ssr/
+build/
+*.local
+
+# ---- Vite / Frontend Specific ---------------------------------
+frontend/dist/
+frontend/.env
+frontend/.env.local
+frontend/.env.production
+
+# ---- Backend Specific -----------------------------------------
+backend/.env
+backend/.env.local
+backend/.env.production
+backend/logs/
+backend/uploads/
+
+# ---- Logs -------------------------------------------------------
+logs/
+*.log
+
+# ---- OS Files ---------------------------------------------------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# ---- IDEs & Editors ---------------------------------------------
+.vscode/settings.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# ---- Testing ----------------------------------------------------
+coverage/
+.nyc_output/
+
+# ---- Misc -------------------------------------------------------
+*.pem
+*.key
+*.cert
+.vercel
+.railway

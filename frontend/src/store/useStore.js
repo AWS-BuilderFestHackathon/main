@@ -38,7 +38,7 @@ export const useStore = create(
       setLoading: (loading) => set({ loading }),
     }),
     {
-      name: 'study-planner-storage',
+      name: 'brainora-storage',
       partialize: (state) => ({
         user: state.user,
         token: state.token,

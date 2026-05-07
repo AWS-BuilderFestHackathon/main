@@ -1,4 +1,4 @@
-import { getGeminiModel } from '../config/gemini.js';
+import { getGeminiModel, generateWithFallback } from '../config/gemini.js';
 import { parseGeminiJSON } from '../utils/helpers.js';
 
 /**
@@ -6,11 +6,9 @@ import { parseGeminiJSON } from '../utils/helpers.js';
  * Returns { summary, keyPoints, difficulty, estimatedReadTime }
  */
 export const summarizeNotes = async (text) => {
-  const model = getGeminiModel();
-
   const prompt = `
 You are an expert study assistant. Analyze and summarize the following student notes.
-Your response MUST be ONLY valid JSON — no markdown, no explanation.
+Your response MUST be ONLY valid JSON — no markdown, no explanation, no code fences.
 
 Notes:
 ${text}
@@ -24,8 +22,8 @@ Return this exact JSON structure:
 }
 `.trim();
 
-  const result = await model.generateContent(prompt);
-  return parseGeminiJSON(result.response.text());
+  const result = await generateWithFallback(prompt);
+  return parseGeminiJSON(result);
 };
 
 /**
@@ -33,13 +31,11 @@ Return this exact JSON structure:
  * Returns array of question objects.
  */
 export const generateQuizQuestions = async (noteText, difficulty = 'medium', count = 5) => {
-  const model = getGeminiModel();
-
   const prompt = `
 Generate ${count} multiple-choice questions from the following study notes.
 Difficulty: ${difficulty}
 Rules: 4 options each, one correct answer, brief explanation for each.
-Response MUST be ONLY valid JSON array — no markdown.
+Response MUST be ONLY valid JSON array — no markdown, no code fences.
 
 Notes:
 ${noteText}
@@ -56,8 +52,8 @@ Return this exact JSON structure:
 ]
 `.trim();
 
-  const result = await model.generateContent(prompt);
-  return parseGeminiJSON(result.response.text());
+  const result = await generateWithFallback(prompt);
+  return parseGeminiJSON(result);
 };
 
 /**
@@ -88,7 +84,6 @@ Keep responses structured and easy to read.`;
  * Generate an AI study plan for given parameters.
  */
 export const generateStudyPlan = async ({ subject, examDate, hoursPerDay, currentLevel }) => {
-  const model = getGeminiModel();
   const daysUntilExam = Math.ceil((new Date(examDate) - new Date()) / (1000 * 60 * 60 * 24));
 
   const prompt = `
@@ -98,7 +93,7 @@ Days until exam: ${daysUntilExam}
 Hours available per day: ${hoursPerDay}
 Current knowledge level: ${currentLevel}
 
-Return ONLY valid JSON — no markdown. Follow this exact structure:
+Return ONLY valid JSON — no markdown, no code fences. Follow this exact structure:
 {
   "title": "Study Plan for ${subject}",
   "tasks": [
@@ -114,26 +109,24 @@ Return ONLY valid JSON — no markdown. Follow this exact structure:
 }
 `.trim();
 
-  const result = await model.generateContent(prompt);
-  return parseGeminiJSON(result.response.text());
+  const result = await generateWithFallback(prompt);
+  return parseGeminiJSON(result);
 };
 
 /**
  * Generate a motivational quote for the dashboard.
  */
 export const generateMotivationalQuote = async (context = {}) => {
-  const model = getGeminiModel();
   const { subject, timeOfDay } = context;
 
   const prompt = `Generate a single short motivational quote (max 20 words) for a student ${subject ? `studying ${subject}` : ''} in the ${timeOfDay || 'morning'}. Return ONLY the quote text, no quotes, no attribution.`;
 
-  const result = await model.generateContent(prompt);
-  return result.response.text().trim();
+  const result = await generateWithFallback(prompt);
+  return result.trim();
 };
 
 /**
- * Generate a context-aware background image prompt for Gemini image generation.
- * (Returns a descriptive prompt string — actual image generation uses Cloudinary or similar)
+ * Generate a context-aware background image prompt.
  */
 export const generateBackgroundPrompt = ({ timeOfDay, subject, theme }) => {
   const timePrompts = {

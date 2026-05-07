@@ -8,8 +8,8 @@ const noteSchema = new mongoose.Schema({
   title: { type: String, default: 'Untitled Note', trim: true },
   subject: { type: String, default: 'General', trim: true },
 
-  // AI Generated
-  summary: { type: String, required: true },
+  // AI Generated (optional — notes can be saved without summarizing)
+  summary: { type: String, default: '' },
   keyPoints: [{ type: String }],
   difficulty: { type: String, enum: ['beginner', 'intermediate', 'advanced'], default: 'intermediate' },
   estimatedReadTime: { type: String, default: '5 minutes' },

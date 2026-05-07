@@ -26,6 +26,15 @@ export const errorHandler = (err, req, res, next) => {
     return res.status(401).json({ success: false, message: 'Token expired' });
   }
 
+  // Gemini / AI quota errors — return user-friendly 503
+  const errMsg = err.message || '';
+  if (errMsg.includes('quota') || errMsg.includes('429') || errMsg.includes('RESOURCE_EXHAUSTED') || errMsg.includes('AI service temporarily')) {
+    return res.status(503).json({
+      success: false,
+      message: 'AI service is temporarily unavailable due to quota limits. Please try again in a few minutes.',
+    });
+  }
+
   // Default server error
   res.status(err.statusCode || 500).json({
     success: false,

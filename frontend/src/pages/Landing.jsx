@@ -64,11 +64,12 @@ const FeatureCard = ({ icon: Icon, title, description, delay }) => (
 
 // ── Premium Navbar with Scroll Effects ────────────────────────
 const PremiumNavbar = () => {
-  const { isAuthenticated } = useStore();
+  const { isAuthenticated, theme } = useStore();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const navigate = useNavigate();
   const { scrollY } = useScroll();
+  const isDark = theme === 'dark';
 
   useMotionValueEvent(scrollY, 'change', (latest) => {
     setScrolled(latest > 30);
@@ -85,19 +86,19 @@ const PremiumNavbar = () => {
       >
         <motion.div
           animate={{
-            backgroundColor: scrolled ? 'rgba(255,255,255,0.85)' : 'rgba(255,255,255,0)',
+            backgroundColor: scrolled
+              ? (isDark ? 'rgba(15,23,42,0.88)' : 'rgba(255,255,255,0.88)')
+              : 'rgba(0,0,0,0)',
             backdropFilter: scrolled ? 'blur(20px) saturate(180%)' : 'blur(0px)',
-            borderBottomColor: scrolled ? 'rgba(148,163,184,0.2)' : 'rgba(148,163,184,0)',
-            boxShadow: scrolled ? '0 4px 30px rgba(0,0,0,0.06)' : '0 0 0 rgba(0,0,0,0)',
+            borderBottomColor: scrolled
+              ? (isDark ? 'rgba(51,65,85,0.4)' : 'rgba(148,163,184,0.2)')
+              : 'rgba(0,0,0,0)',
+            boxShadow: scrolled
+              ? (isDark ? '0 4px 30px rgba(0,0,0,0.3)' : '0 4px 30px rgba(0,0,0,0.06)')
+              : '0 0 0 rgba(0,0,0,0)',
           }}
           transition={{ duration: 0.4 }}
-          className="border-b dark:bg-slate-900/0"
-          // For dark mode we use CSS override
-          style={{
-            ...(scrolled && document.documentElement.classList.contains('dark')
-              ? { backgroundColor: 'rgba(15,23,42,0.85)' }
-              : {}),
-          }}
+          className="border-b"
         >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-14 sm:h-16">

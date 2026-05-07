@@ -36,6 +36,32 @@ export const summarizeNote = asyncHandler(async (req, res) => {
   res.status(201).json({ success: true, ...aiResponse, noteId: note._id, note });
 });
 
+// POST /api/notes/save — save note without AI summarization
+export const saveNote = asyncHandler(async (req, res) => {
+  const { text, title, subject, tags } = req.body;
+  const userId = req.user._id;
+
+  if (!text || text.trim().length < 10) {
+    return res.status(400).json({
+      success: false,
+      message: 'Please provide at least 10 characters of text to save',
+    });
+  }
+
+  const note = await Note.create({
+    user: userId,
+    originalText: text,
+    title: title || `Note — ${new Date().toLocaleDateString()}`,
+    subject: subject || 'General',
+    summary: text.slice(0, 200) + (text.length > 200 ? '...' : ''),
+    tags: tags || [],
+  });
+
+  await User.findByIdAndUpdate(userId, { $inc: { totalNotes: 1 } });
+
+  res.status(201).json({ success: true, noteId: note._id, note });
+});
+
 // GET /api/notes
 export const getNotes = asyncHandler(async (req, res) => {
   const { page = 1, limit = 10, subject, search } = req.query;

@@ -52,8 +52,8 @@ app.use('/api/', limiter);
 // AI endpoints get stricter limiting (Gemini quota protection)
 const aiLimiter = rateLimit({
   windowMs: 60 * 1000, // 1 minute
-  max: 10,
-  message: { success: false, message: 'AI request limit reached. Please wait a moment.' },
+  max: 5, // stricter limit to protect free-tier Gemini quota
+  message: { success: false, message: 'AI request limit reached. Please wait a minute before trying again.' },
 });
 app.use('/api/notes/summarize', aiLimiter);
 app.use('/api/quiz/generate', aiLimiter);

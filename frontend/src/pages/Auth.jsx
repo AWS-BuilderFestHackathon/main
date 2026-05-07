@@ -37,15 +37,15 @@ const MotivationalCarousel = () => {
   };
 
   return (
-    <div className="relative w-full h-full flex flex-col items-center justify-center overflow-hidden rounded-2xl sm:rounded-3xl
+    <div className="relative w-full h-full flex flex-col items-center justify-between overflow-hidden rounded-2xl sm:rounded-3xl
       bg-gradient-to-br from-primary-900 via-primary-800 to-secondary-900">
 
       {/* Background glow */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(139,92,246,0.3),transparent_60%)]" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(99,102,241,0.2),transparent_60%)]" />
 
-      {/* Image with crossfade */}
-      <div className="relative w-full flex-1 flex items-center justify-center p-4 sm:p-8">
+      {/* Image with crossfade — fills almost the entire panel */}
+      <div className="relative w-full flex-1 min-h-0 flex items-center justify-center p-2 sm:p-4 lg:p-6">
         <AnimatePresence custom={direction} mode="wait">
           <motion.div
             key={current}
@@ -55,12 +55,12 @@ const MotivationalCarousel = () => {
             animate="center"
             exit="exit"
             transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="w-full max-w-xs sm:max-w-sm"
+            className="w-full h-full flex items-center justify-center"
           >
             <motion.img
               src={slides[current].img}
               alt={slides[current].title}
-              className="w-full aspect-square rounded-2xl object-cover shadow-2xl shadow-black/30
+              className="max-w-full max-h-full rounded-xl sm:rounded-2xl object-cover shadow-2xl shadow-black/30
                 ring-2 ring-white/10"
               whileHover={{ scale: 1.03, rotate: 1 }}
               transition={{ duration: 0.4 }}
@@ -69,8 +69,8 @@ const MotivationalCarousel = () => {
         </AnimatePresence>
       </div>
 
-      {/* Quote overlay */}
-      <div className="relative z-10 px-4 sm:px-8 pb-6 sm:pb-8 text-center">
+      {/* Quote overlay — compact on mobile to prevent overflow */}
+      <div className="relative z-10 w-full px-3 sm:px-8 pb-3 sm:pb-8 text-center flex-shrink-0">
         <AnimatePresence mode="wait">
           <motion.div
             key={current}
@@ -79,36 +79,37 @@ const MotivationalCarousel = () => {
             exit={{ opacity: 0, y: -15 }}
             transition={{ duration: 0.4, delay: 0.1 }}
           >
-            <h3 className="text-lg sm:text-xl font-bold text-white mb-2">{slides[current].title}</h3>
-            <p className="text-xs sm:text-sm text-white/80 italic leading-relaxed mb-1">{slides[current].quote}</p>
-            <p className="text-[10px] sm:text-xs text-white/50 font-medium">{slides[current].author}</p>
+            <h3 className="text-sm sm:text-xl font-bold text-white mb-0.5 sm:mb-2 truncate">{slides[current].title}</h3>
+            <p className="text-[10px] sm:text-sm text-white/80 italic leading-snug sm:leading-relaxed mb-0.5 sm:mb-1
+              line-clamp-2 sm:line-clamp-none">{slides[current].quote}</p>
+            <p className="text-[9px] sm:text-xs text-white/50 font-medium">{slides[current].author}</p>
           </motion.div>
         </AnimatePresence>
 
-        {/* Navigation */}
-        <div className="flex items-center justify-center gap-4 mt-4 sm:mt-5">
-          <button onClick={prev} className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20
-            flex items-center justify-center transition-all active:scale-90 touch-target">
-            <ChevronLeft className="w-4 h-4 text-white" />
+        {/* Navigation — compact on mobile */}
+        <div className="flex items-center justify-center gap-3 sm:gap-4 mt-2 sm:mt-5">
+          <button onClick={prev} className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-white/10 hover:bg-white/20
+            flex items-center justify-center transition-all active:scale-90">
+            <ChevronLeft className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
           </button>
 
           {/* Dots */}
-          <div className="flex gap-1.5">
+          <div className="flex gap-1 sm:gap-1.5">
             {slides.map((_, i) => (
               <button key={i} onClick={() => { setDirection(i > current ? 1 : -1); setCurrent(i); }}
-                className="touch-target flex items-center justify-center p-1">
+                className="flex items-center justify-center p-0.5 sm:p-1">
                 <motion.div
-                  animate={{ width: i === current ? 20 : 6, backgroundColor: i === current ? '#fff' : 'rgba(255,255,255,0.3)' }}
-                  className="h-1.5 rounded-full"
+                  animate={{ width: i === current ? 16 : 5, backgroundColor: i === current ? '#fff' : 'rgba(255,255,255,0.3)' }}
+                  className="h-1 sm:h-1.5 rounded-full"
                   transition={{ duration: 0.3 }}
                 />
               </button>
             ))}
           </div>
 
-          <button onClick={next} className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20
-            flex items-center justify-center transition-all active:scale-90 touch-target">
-            <ChevronRight className="w-4 h-4 text-white" />
+          <button onClick={next} className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-white/10 hover:bg-white/20
+            flex items-center justify-center transition-all active:scale-90">
+            <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
           </button>
         </div>
       </div>
@@ -184,7 +185,7 @@ export const Auth = () => {
           glass card-shadow dark:card-shadow-dark relative"
       >
         {/* Carousel Panel — top on mobile, left on desktop */}
-        <div className="w-full lg:w-[55%] h-56 sm:h-72 lg:h-auto lg:min-h-[580px] flex-shrink-0">
+        <div className="w-full lg:w-[55%] h-60 sm:h-80 lg:h-auto lg:min-h-[580px] flex-shrink-0">
           <MotivationalCarousel />
         </div>
 

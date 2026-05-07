@@ -1,4 +1,4 @@
-import { getGeminiModel, generateWithFallback } from '../config/gemini.js';
+import { generateWithFallback, chatWithFallback } from '../config/gemini.js';
 import { parseGeminiJSON } from '../utils/helpers.js';
 
 /**
@@ -58,16 +58,10 @@ Return this exact JSON structure:
 
 /**
  * Answer a student doubt using Gemini with conversation history.
+ * Now uses chatWithFallback for automatic retry + model fallback on rate-limits.
  * history = array of { role: 'user'|'model', parts: [{text}] }
  */
 export const solveDoubt = async (question, subject = 'General', history = []) => {
-  const model = getGeminiModel();
-
-  const chat = model.startChat({
-    history,
-    generationConfig: { maxOutputTokens: 2048 },
-  });
-
   const systemContext = `You are a helpful, patient study assistant specializing in ${subject}. 
 Explain concepts clearly with examples. Format math with clear notation. 
 Keep responses structured and easy to read.`;
@@ -76,8 +70,7 @@ Keep responses structured and easy to read.`;
     ? `${systemContext}\n\nStudent question: ${question}`
     : question;
 
-  const result = await chat.sendMessage(message);
-  return result.response.text();
+  return chatWithFallback(history, message);
 };
 
 /**

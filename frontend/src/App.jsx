@@ -42,9 +42,9 @@ const AppLayout = () => {
         animate={{ marginLeft: typeof window !== 'undefined' && window.innerWidth >= 1024 ? (sidebarOpen ? 260 : 72) : 0 }}
         transition={{ duration: 0.3, ease: 'easeInOut' }}
         className="min-h-screen min-h-[100dvh] relative z-10
-          pt-[calc(env(safe-area-inset-top,0px)+3.5rem)] lg:pt-0
-          pb-[calc(env(safe-area-inset-bottom,0px)+5rem)] lg:pb-0
-          px-4 sm:px-6 lg:p-8"
+          pt-[calc(env(safe-area-inset-top,0px)+4.5rem)] lg:pt-6
+          pb-[calc(env(safe-area-inset-bottom,0px)+5rem)] lg:pb-6
+          px-4 sm:px-6 lg:px-8"
       >
         <AnimatePresence mode="wait">
           <motion.div
@@ -52,7 +52,7 @@ const AppLayout = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.25 }}
-            className="py-4 lg:py-0"
+            className="py-2 sm:py-4 lg:py-6"
           >
             <Outlet />
           </motion.div>

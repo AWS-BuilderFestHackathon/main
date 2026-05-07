@@ -1,0 +1,1988 @@
+
+================================================================================
+          AI STUDY PLANNER - COMPLETE HACKATHON EXECUTION PLAN
+================================================================================
+                    BUILD TIME: 4-5 HOURS | MERN STACK
+                      GOAL: HACKATHON WINNER 🏆
+================================================================================
+
+
+TABLE OF CONTENTS
+================================================================================
+1. Time-Boxed Execution Strategy
+2. Complete Technical Architecture
+3. Design System & UI Strategy
+4. Project Structure
+5. Detailed Coding Patterns
+6. Page-by-Page Implementation
+7. Database Schema
+8. API Endpoints Reference
+9. Deployment Strategy
+10. Demo Preparation Checklist
+
+
+================================================================================
+SECTION 1: TIME-BOXED EXECUTION STRATEGY (4-5 HOURS)
+================================================================================
+
+HOUR 1: FOUNDATION & SETUP (60 minutes)
+--------------------------------------------------------------------------------
+⏰ 0-15 min: Project Scaffolding
+   - Create Vite React app: npm create vite@latest client -- --template react
+   - Create Express server: mkdir server && npm init -y
+   - Install all dependencies (see dependency list below)
+   - Setup folder structure
+   - Initialize Git repository
+
+⏰ 15-30 min: Authentication System
+   - Configure Google OAuth with Passport.js
+   - Setup OTP service with Nodemailer
+   - Create JWT token generation
+   - Build login/signup components
+   - Protected route wrapper
+
+⏰ 30-45 min: Database & API Foundation
+   - Connect MongoDB Atlas
+   - Create User, Note, Quiz, Doubt, StudyPlan models
+   - Setup Express routes structure
+   - Create API middleware (auth, error handling)
+
+⏰ 45-60 min: Three.js Background Setup
+   - Install React Three Fiber
+   - Create LightBackground component (floating particles)
+   - Create DarkBackground component (starfield)
+   - Setup theme toggle with Zustand
+
+
+HOUR 2: CORE FEATURES - PART 1 (60 minutes)
+--------------------------------------------------------------------------------
+⏰ 0-30 min: Smart Notes Summarizer
+   - Setup Google Gemini API
+   - Create note upload component (file + text input)
+   - Build summarization endpoint
+   - Display summary with animations
+   - Save to database functionality
+
+⏰ 30-60 min: AI Doubt Solver
+   - Create chat interface component
+   - Setup Gemini conversational AI
+   - Implement real-time chat updates
+   - Add code syntax highlighting
+   - Doubt history sidebar
+
+
+HOUR 3: CORE FEATURES - PART 2 (60 minutes)
+--------------------------------------------------------------------------------
+⏰ 0-30 min: Quiz Generator
+   - Build quiz generation from notes
+   - Create quiz taking interface
+   - Implement timer functionality
+   - Score calculation & results page
+   - Quiz history tracking
+
+⏰ 30-60 min: Personalized Study Planner
+   - Calendar integration component
+   - AI-generated study schedule
+   - Task management (add/edit/delete)
+   - Progress tracking visualization
+   - Deadline reminders
+
+
+HOUR 4: UI/UX POLISH (60 minutes)
+--------------------------------------------------------------------------------
+⏰ 0-20 min: Gemini Dynamic Backgrounds
+   - Context-aware prompt generation
+   - Background image caching
+   - Smooth transitions between backgrounds
+   - Motivational quote overlay
+
+⏰ 20-40 min: Dark/Light Mode Refinement
+   - Test all components in both modes
+   - Adjust color contrasts
+   - Fix Three.js background switching
+   - Ensure text readability
+
+⏰ 40-60 min: Animations & Micro-interactions
+   - Framer Motion page transitions
+   - Button hover effects
+   - Loading skeletons
+   - Success/error toast notifications
+   - Smooth scrolling
+
+
+HOUR 5: FINAL TOUCH & DEMO PREP (60 minutes)
+--------------------------------------------------------------------------------
+⏰ 0-20 min: Bug Fixes & Error Handling
+   - Test all features end-to-end
+   - Add try-catch blocks
+   - Implement error boundaries
+   - Fix console warnings
+
+⏰ 20-40 min: Responsive Design
+   - Mobile breakpoints (< 640px)
+   - Tablet adjustments (640-1024px)
+   - Desktop optimization (> 1024px)
+   - Test on different screen sizes
+
+⏰ 40-60 min: Demo Preparation
+   - Create sample user account
+   - Add demo notes & quizzes
+   - Prepare demo script
+   - Screenshot key features
+   - Deploy to production
+
+
+================================================================================
+SECTION 2: COMPLETE TECHNICAL ARCHITECTURE
+================================================================================
+
+FRONTEND TECH STACK
+--------------------------------------------------------------------------------
+✓ React 18.3+ with Vite 5.x (Lightning-fast HMR)
+✓ Three.js + React Three Fiber (3D backgrounds)
+✓ Framer Motion 11.x (Smooth animations)
+✓ TailwindCSS 3.4+ (Utility-first styling)
+✓ shadcn/ui (Pre-built accessible components)
+✓ Zustand 4.x (Lightweight state management)
+✓ React Query (TanStack Query v5) (Server state)
+✓ React Router v6.x (Client-side routing)
+✓ Lucide React (Modern icon library)
+✓ Recharts (Data visualization)
+
+
+BACKEND TECH STACK
+--------------------------------------------------------------------------------
+✓ Node.js 20+ with Express 4.x
+✓ MongoDB 7.x + Mongoose 8.x
+✓ Google Gemini Pro API (AI features)
+✓ Passport.js (Google OAuth)
+✓ Nodemailer (Email OTP)
+✓ Twilio (SMS OTP - optional)
+✓ JWT (jsonwebtoken 9.x)
+✓ Socket.io 4.x (Real-time features - optional)
+✓ Bcrypt.js (Password hashing)
+✓ Express Validator (Input validation)
+
+
+DEVOPS & DEPLOYMENT
+--------------------------------------------------------------------------------
+✓ Vercel (Frontend hosting)
+✓ Railway/Render (Backend hosting)
+✓ MongoDB Atlas (Database)
+✓ Cloudinary (Image storage)
+✓ GitHub (Version control)
+
+
+================================================================================
+SECTION 3: DESIGN SYSTEM & UI STRATEGY
+================================================================================
+
+COLOR PALETTE
+--------------------------------------------------------------------------------
+LIGHT MODE:
+  Primary:     #6366f1 (Indigo-600)    - Trust, Learning
+  Secondary:   #8b5cf6 (Purple-600)    - Creativity
+  Accent:      #10b981 (Emerald-500)   - Success, Growth
+  Background:  #f8fafc (Slate-50)      - Clean canvas
+  Surface:     #ffffff (White)         - Cards, panels
+  Text:        #0f172a (Slate-900)     - High contrast
+  Text Muted:  #64748b (Slate-500)     - Secondary text
+  Border:      #e2e8f0 (Slate-200)     - Subtle dividers
+
+DARK MODE:
+  Primary:     #818cf8 (Indigo-400)    - Softer indigo
+  Secondary:   #a78bfa (Purple-400)    - Softer purple
+  Accent:      #34d399 (Emerald-400)   - Brighter success
+  Background:  #0f172a (Slate-900)     - Deep dark
+  Surface:     #1e293b (Slate-800)     - Elevated surfaces
+  Text:        #f1f5f9 (Slate-100)     - High readability
+  Text Muted:  #94a3b8 (Slate-400)     - Muted text
+  Border:      #334155 (Slate-700)     - Subtle borders
+
+
+TYPOGRAPHY
+--------------------------------------------------------------------------------
+Font Family:  Inter, system-ui, sans-serif
+Heading XL:   48px / 700 (Hero titles)
+Heading L:    36px / 700 (Page titles)
+Heading M:    24px / 600 (Section headers)
+Heading S:    20px / 600 (Card titles)
+Body L:       16px / 400 (Main content)
+Body M:       14px / 400 (Secondary content)
+Body S:       12px / 400 (Captions, labels)
+
+
+THREE.JS BACKGROUND CONCEPTS
+--------------------------------------------------------------------------------
+LIGHT MODE BACKGROUNDS:
+  1. Floating Books Animation
+     - Gentle book particles floating upward
+     - Soft rotation and bobbing motion
+     - Colors: Soft blues, purples, whites with transparency
+     - Particle count: 100-150
+  
+  2. Particle Wave System
+     - Flowing wave patterns across screen
+     - Sine wave motion with noise
+     - Colors: Gradient from indigo to purple
+     - Particle count: 200-300
+  
+  3. Geometric Knowledge Network
+     - Connected nodes representing learning paths
+     - Lines connecting nearby particles
+     - Colors: Light indigo with thin lines
+     - Particle count: 80-120
+
+DARK MODE BACKGROUNDS:
+  1. Starfield Study Universe
+     - Stars slowly rotating
+     - Twinkling effect with opacity changes
+     - Colors: Cyan, indigo, purple stars
+     - Particle count: 5000+ (small particles)
+  
+  2. Neon Circuit Board
+     - Glowing neural network paths
+     - Pulsing connections
+     - Colors: Neon cyan, pink, purple
+     - Particle count: 150-200 with connections
+  
+  3. Abstract Brain Waves
+     - Flowing wave patterns
+     - EEG-style visualization
+     - Colors: Purple to cyan gradient
+     - Animated with displacement
+
+
+GEMINI-GENERATED MOTIVATIONAL BACKGROUNDS
+--------------------------------------------------------------------------------
+STRATEGY: Generate context-aware backgrounds based on:
+  - Time of day (morning/afternoon/evening/night)
+  - Study subject being worked on
+  - User's progress & streak data
+  - Upcoming deadlines or exam dates
+
+PROMPT TEMPLATES:
+  Morning (6 AM - 12 PM):
+    "Generate a motivational study background image: sunrise over mountains 
+     with warm golden tones, representing fresh start and new opportunities. 
+     Aesthetic, inspiring, minimalist style."
+  
+  Afternoon (12 PM - 6 PM):
+    "Generate a study background: focused student in bright modern library 
+     with natural light, plants, organized desk. Clean, productive atmosphere."
+  
+  Evening (6 PM - 10 PM):
+    "Generate a study background: cozy evening study setup with warm lamp 
+     light, books, coffee. Comfortable yet focused ambiance."
+  
+  Late Night (10 PM - 6 AM):
+    "Generate a study background: city lights at night from study window, 
+     calm and focused mood, deep work atmosphere."
+
+SUBJECT-BASED:
+  Mathematics: "Geometric patterns, fractals, minimalist mathematical beauty"
+  Science: "Laboratory aesthetic, molecular structures, space imagery"
+  History: "Ancient scrolls, historical archives, vintage library"
+  Literature: "Stacked books, cozy reading nook, literary atmosphere"
+  Programming: "Code editor aesthetic, terminal windows, tech workspace"
+
+
+================================================================================
+SECTION 4: PROJECT STRUCTURE
+================================================================================
+
+ai-study-planner/
+│
+├── client/                              # Frontend (Vite + React)
+│   ├── public/
+│   │   └── vite.svg
+│   ├── src/
+│   │   ├── assets/
+│   │   │   └── images/
+│   │   │
+│   │   ├── components/
+│   │   │   ├── 3d/
+│   │   │   │   ├── LightBackground.jsx       # Floating particles
+│   │   │   │   ├── DarkBackground.jsx        # Starfield
+│   │   │   │   └── BackgroundManager.jsx     # Theme switcher
+│   │   │   │
+│   │   │   ├── auth/
+│   │   │   │   ├── GoogleAuth.jsx            # OAuth button
+│   │   │   │   ├── OTPLogin.jsx              # Email/Phone OTP
+│   │   │   │   ├── AuthForm.jsx              # Main auth UI
+│   │   │   │   └── ProtectedRoute.jsx        # Route guard
+│   │   │   │
+│   │   │   ├── features/
+│   │   │   │   ├── NoteSummarizer.jsx        # Upload & summarize
+│   │   │   │   ├── DoubtSolver.jsx           # Chat interface
+│   │   │   │   ├── QuizGenerator.jsx         # Quiz creation
+│   │   │   │   ├── QuizTaker.jsx             # Quiz interface
+│   │   │   │   ├── StudyPlanner.jsx          # Calendar view
+│   │   │   │   └── TaskManager.jsx           # Task CRUD
+│   │   │   │
+│   │   │   ├── layout/
+│   │   │   │   ├── Navbar.jsx                # Top navigation
+│   │   │   │   ├── Sidebar.jsx               # Side navigation
+│   │   │   │   ├── Footer.jsx                # Footer
+│   │   │   │   └── ThemeToggle.jsx           # Dark/Light switch
+│   │   │   │
+│   │   │   ├── ui/                           # shadcn/ui components
+│   │   │   │   ├── button.jsx
+│   │   │   │   ├── card.jsx
+│   │   │   │   ├── input.jsx
+│   │   │   │   ├── textarea.jsx
+│   │   │   │   ├── dialog.jsx
+│   │   │   │   ├── toast.jsx
+│   │   │   │   └── ... (more shadcn components)
+│   │   │   │
+│   │   │   └── shared/
+│   │   │       ├── LoadingSpinner.jsx
+│   │   │       ├── ErrorBoundary.jsx
+│   │   │       └── MotivationalQuote.jsx
+│   │   │
+│   │   ├── pages/
+│   │   │   ├── Landing.jsx                   # Hero + features
+│   │   │   ├── Auth.jsx                      # Login/Signup
+│   │   │   ├── Dashboard.jsx                 # Main dashboard
+│   │   │   ├── Notes.jsx                     # Notes library
+│   │   │   ├── Doubts.jsx                    # Doubt solver
+│   │   │   ├── Quiz.jsx                      # Quiz page
+│   │   │   ├── Planner.jsx                   # Study planner
+│   │   │   └── Profile.jsx                   # User profile
+│   │   │
+│   │   ├── hooks/
+│   │   │   ├── useAuth.js                    # Auth state
+│   │   │   ├── useTheme.js                   # Theme management
+│   │   │   ├── useGemini.js                  # AI interactions
+│   │   │   └── useLocalStorage.js            # Local storage
+│   │   │
+│   │   ├── store/
+│   │   │   └── useStore.js                   # Zustand global store
+│   │   │
+│   │   ├── utils/
+│   │   │   ├── api.js                        # Axios instance
+│   │   │   ├── gemini.js                     # Gemini helpers
+│   │   │   └── dateHelpers.js                # Date formatting
+│   │   │
+│   │   ├── styles/
+│   │   │   └── globals.css                   # Tailwind imports
+│   │   │
+│   │   ├── App.jsx                           # Main app component
+│   │   └── main.jsx                          # Entry point
+│   │
+│   ├── .env                                  # Environment variables
+│   ├── package.json
+│   ├── vite.config.js
+│   ├── tailwind.config.js
+│   ├── postcss.config.js
+│   └── index.html
+│
+├── server/                                   # Backend (Express)
+│   ├── config/
+│   │   ├── database.js                       # MongoDB connection
+│   │   ├── passport.js                       # OAuth config
+│   │   └── gemini.js                         # Gemini API setup
+│   │
+│   ├── models/
+│   │   ├── User.js                           # User schema
+│   │   ├── Note.js                           # Note schema
+│   │   ├── Quiz.js                           # Quiz schema
+│   │   ├── Doubt.js                          # Doubt schema
+│   │   └── StudyPlan.js                      # Study plan schema
+│   │
+│   ├── controllers/
+│   │   ├── authController.js                 # Auth logic
+│   │   ├── noteController.js                 # Note operations
+│   │   ├── quizController.js                 # Quiz operations
+│   │   ├── doubtController.js                # Doubt solver
+│   │   └── plannerController.js              # Planner logic
+│   │
+│   ├── routes/
+│   │   ├── auth.js                           # Auth routes
+│   │   ├── notes.js                          # Note routes
+│   │   ├── quiz.js                           # Quiz routes
+│   │   ├── doubts.js                         # Doubt routes
+│   │   └── planner.js                        # Planner routes
+│   │
+│   ├── middleware/
+│   │   ├── auth.js                           # JWT verification
+│   │   ├── errorHandler.js                   # Global error handler
+│   │   └── validator.js                      # Input validation
+│   │
+│   ├── services/
+│   │   ├── geminiService.js                  # Gemini API wrapper
+│   │   ├── otpService.js                     # OTP generation
+│   │   ├── emailService.js                   # Email sending
+│   │   └── backgroundService.js              # Background generation
+│   │
+│   ├── utils/
+│   │   ├── logger.js                         # Winston logger
+│   │   └── helpers.js                        # Helper functions
+│   │
+│   ├── .env                                  # Environment variables
+│   ├── package.json
+│   └── server.js                             # Entry point
+│
+├── .gitignore
+├── README.md
+└── docker-compose.yml (Optional)
+
+
+================================================================================
+SECTION 5: DETAILED CODING PATTERNS
+================================================================================
+
+REACT COMPONENT PATTERN (Functional + Hooks)
+--------------------------------------------------------------------------------
+File: client/src/components/features/NoteSummarizer.jsx
+
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { useQuery, useMutation } from '@tanstack/react-query';
+import { Sparkles, FileText, Loader2, Upload, Save } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Textarea } from '@/components/ui/textarea';
+import { useStore } from '@/store/useStore';
+import { toast } from 'sonner';
+import api from '@/utils/api';
+
+export const NoteSummarizer = () => {
+  const [noteText, setNoteText] = useState('');
+  const [file, setFile] = useState(null);
+  const { theme, user } = useStore();
+
+  // Mutation for summarization
+  const summarizeMutation = useMutation({
+    mutationFn: async (text) => {
+      const res = await api.post('/api/notes/summarize', { text });
+      return res.data;
+    },
+    onSuccess: (data) => {
+      toast.success('Notes summarized successfully!');
+    },
+    onError: (error) => {
+      toast.error('Failed to summarize notes');
+      console.error(error);
+    },
+  });
+
+  // File upload handler
+  const handleFileUpload = async (e) => {
+    const uploadedFile = e.target.files[0];
+    if (!uploadedFile) return;
+
+    setFile(uploadedFile);
+    const reader = new FileReader();
+    
+    reader.onload = (event) => {
+      setNoteText(event.target.result);
+    };
+    
+    reader.readAsText(uploadedFile);
+  };
+
+  // Summarize handler
+  const handleSummarize = () => {
+    if (!noteText.trim()) {
+      toast.error('Please enter some notes to summarize');
+      return;
+    }
+    summarizeMutation.mutate(noteText);
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="relative z-10 max-w-4xl mx-auto p-6"
+    >
+      <Card className="backdrop-blur-lg bg-white/90 dark:bg-slate-900/90 
+                       border-2 border-indigo-200 dark:border-indigo-800 
+                       shadow-2xl">
+        <div className="p-8">
+          {/* Header */}
+          <div className="flex items-center gap-3 mb-6">
+            <Sparkles className="w-8 h-8 text-indigo-600 dark:text-indigo-400" />
+            <h2 className="text-3xl font-bold bg-gradient-to-r 
+                           from-indigo-600 to-purple-600 
+                           dark:from-indigo-400 dark:to-purple-400 
+                           bg-clip-text text-transparent">
+              Smart Note Summarizer
+            </h2>
+          </div>
+
+          {/* File Upload */}
+          <div className="mb-4">
+            <label className="flex items-center justify-center gap-2 p-4 
+                              border-2 border-dashed border-slate-300 
+                              dark:border-slate-600 rounded-lg cursor-pointer 
+                              hover:border-indigo-500 dark:hover:border-indigo-400 
+                              transition-colors">
+              <Upload className="w-5 h-5" />
+              <span>Upload Text/PDF File</span>
+              <input
+                type="file"
+                accept=".txt,.pdf"
+                onChange={handleFileUpload}
+                className="hidden"
+              />
+            </label>
+            {file && (
+              <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
+                Selected: {file.name}
+              </p>
+            )}
+          </div>
+
+          {/* Text Input */}
+          <Textarea
+            value={noteText}
+            onChange={(e) => setNoteText(e.target.value)}
+            className="w-full h-64 p-4 rounded-lg border-2 
+                       border-slate-200 dark:border-slate-700 
+                       bg-white dark:bg-slate-800 
+                       focus:border-indigo-500 dark:focus:border-indigo-400 
+                       transition-colors resize-none"
+            placeholder="Or paste your notes here..."
+          />
+
+          {/* Character Count */}
+          <div className="mt-2 text-right text-sm text-slate-500">
+            {noteText.length} characters
+          </div>
+
+          {/* Summarize Button */}
+          <Button
+            onClick={handleSummarize}
+            disabled={!noteText || summarizeMutation.isPending}
+            className="mt-6 w-full bg-gradient-to-r from-indigo-600 to-purple-600 
+                       hover:from-indigo-700 hover:to-purple-700 
+                       text-white font-semibold py-3 text-lg
+                       disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {summarizeMutation.isPending ? (
+              <>
+                <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                Summarizing with AI...
+              </>
+            ) : (
+              <>
+                <Sparkles className="w-5 h-5 mr-2" />
+                Summarize Notes
+              </>
+            )}
+          </Button>
+
+          {/* Summary Result */}
+          {summarizeMutation.data && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              transition={{ duration: 0.5 }}
+              className="mt-8 p-6 rounded-lg bg-gradient-to-br 
+                         from-indigo-50 to-purple-50 
+                         dark:from-indigo-950/30 dark:to-purple-950/30 
+                         border-l-4 border-indigo-600"
+            >
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-xl font-semibold text-indigo-900 
+                               dark:text-indigo-100">
+                  AI Summary
+                </h3>
+                <Button variant="outline" size="sm">
+                  <Save className="w-4 h-4 mr-2" />
+                  Save Summary
+                </Button>
+              </div>
+              
+              <div className="prose dark:prose-invert max-w-none">
+                <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
+                  {summarizeMutation.data.summary}
+                </p>
+              </div>
+
+              {/* Key Points */}
+              {summarizeMutation.data.keyPoints && (
+                <div className="mt-4">
+                  <h4 className="font-semibold mb-2 text-indigo-900 
+                                 dark:text-indigo-100">
+                    Key Points:
+                  </h4>
+                  <ul className="list-disc list-inside space-y-1">
+                    {summarizeMutation.data.keyPoints.map((point, idx) => (
+                      <li key={idx} className="text-slate-700 dark:text-slate-300">
+                        {point}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </motion.div>
+          )}
+        </div>
+      </Card>
+    </motion.div>
+  );
+};
+
+
+THREE.JS BACKGROUND COMPONENT (Dark Mode)
+--------------------------------------------------------------------------------
+File: client/src/components/3d/DarkBackground.jsx
+
+import { useRef, useMemo } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { Points, PointMaterial } from '@react-three/drei';
+import * as random from 'maath/random';
+
+function StarField() {
+  const ref = useRef();
+  
+  // Generate random sphere of stars
+  const sphere = useMemo(() => {
+    const positions = random.inSphere(new Float32Array(5000 * 3), { 
+      radius: 1.5 
+    });
+    return positions;
+  }, []);
+
+  // Rotate stars slowly
+  useFrame((state, delta) => {
+    ref.current.rotation.x -= delta / 10;
+    ref.current.rotation.y -= delta / 15;
+  });
+
+  return (
+    <group rotation={[0, 0, Math.PI / 4]}>
+      <Points 
+        ref={ref} 
+        positions={sphere} 
+        stride={3} 
+        frustumCulled={false}
+      >
+        <PointMaterial
+          transparent
+          color="#818cf8"
+          size={0.002}
+          sizeAttenuation={true}
+          depthWrite={false}
+          blending={2} // Additive blending
+        />
+      </Points>
+    </group>
+  );
+}
+
+function ConnectedNodes() {
+  const ref = useRef();
+  
+  const particles = useMemo(() => {
+    const positions = [];
+    for (let i = 0; i < 100; i++) {
+      positions.push(
+        (Math.random() - 0.5) * 3,
+        (Math.random() - 0.5) * 3,
+        (Math.random() - 0.5) * 3
+      );
+    }
+    return new Float32Array(positions);
+  }, []);
+
+  useFrame((state) => {
+    ref.current.rotation.y = state.clock.elapsedTime * 0.05;
+  });
+
+  return (
+    <Points ref={ref} positions={particles} stride={3}>
+      <PointMaterial
+        transparent
+        color="#a78bfa"
+        size={0.015}
+        sizeAttenuation={true}
+        depthWrite={false}
+      />
+    </Points>
+  );
+}
+
+export const DarkBackground = () => {
+  return (
+    <div className="fixed inset-0 -z-10">
+      <Canvas camera={{ position: [0, 0, 1] }}>
+        <StarField />
+        <ConnectedNodes />
+      </Canvas>
+      
+      {/* Gradient Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br 
+                      from-slate-900 via-purple-900/20 to-slate-900 
+                      pointer-events-none" />
+    </div>
+  );
+};
+
+
+THREE.JS BACKGROUND COMPONENT (Light Mode)
+--------------------------------------------------------------------------------
+File: client/src/components/3d/LightBackground.jsx
+
+import { useRef, useMemo } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { Points, PointMaterial } from '@react-three/drei';
+
+function FloatingParticles() {
+  const ref = useRef();
+  
+  const particles = useMemo(() => {
+    const positions = [];
+    for (let i = 0; i < 200; i++) {
+      positions.push(
+        (Math.random() - 0.5) * 10,
+        Math.random() * 10 - 5,
+        (Math.random() - 0.5) * 10
+      );
+    }
+    return new Float32Array(positions);
+  }, []);
+
+  useFrame((state, delta) => {
+    ref.current.rotation.y += delta * 0.05;
+    
+    // Floating animation
+    const positions = ref.current.geometry.attributes.position.array;
+    for (let i = 1; i < positions.length; i += 3) {
+      positions[i] += Math.sin(state.clock.elapsedTime + i) * 0.001;
+    }
+    ref.current.geometry.attributes.position.needsUpdate = true;
+  });
+
+  return (
+    <Points ref={ref} positions={particles} stride={3}>
+      <PointMaterial
+        transparent
+        color="#6366f1"
+        size={0.025}
+        sizeAttenuation={true}
+        depthWrite={false}
+        opacity={0.6}
+      />
+    </Points>
+  );
+}
+
+export const LightBackground = () => {
+  return (
+    <div className="fixed inset-0 -z-10">
+      <Canvas camera={{ position: [0, 0, 5] }}>
+        <ambientLight intensity={0.5} />
+        <FloatingParticles />
+      </Canvas>
+      
+      {/* Soft gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br 
+                      from-blue-50 via-purple-50 to-pink-50 
+                      pointer-events-none" />
+    </div>
+  );
+};
+
+
+BACKEND API CONTROLLER PATTERN
+--------------------------------------------------------------------------------
+File: server/controllers/noteController.js
+
+import { GoogleGenerativeAI } from '@google/generative-ai';
+import Note from '../models/Note.js';
+import User from '../models/User.js';
+
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+
+export const summarizeNote = async (req, res) => {
+  try {
+    const { text } = req.body;
+    const userId = req.user.id;
+
+    // Validate input
+    if (!text || text.trim().length < 50) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please provide at least 50 characters of text',
+      });
+    }
+
+    // Initialize Gemini model
+    const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+    
+    // Create detailed prompt
+    const prompt = `
+      You are an expert study assistant. Analyze and summarize the following 
+      student notes. Your summary should:
+      
+      1. Extract the main concepts and key ideas
+      2. Organize information hierarchically
+      3. Highlight important definitions, formulas, or facts
+      4. Use clear, concise language
+      5. Format with bullet points for readability
+      
+      Notes to summarize:
+      ${text}
+      
+      Provide your response in the following JSON format:
+      {
+        "summary": "A comprehensive paragraph summary",
+        "keyPoints": ["Point 1", "Point 2", "Point 3"],
+        "difficulty": "beginner|intermediate|advanced",
+        "estimatedReadTime": "X minutes"
+      }
+    `;
+
+    // Generate content
+    const result = await model.generateContent(prompt);
+    const responseText = result.response.text();
+    
+    // Parse JSON response
+    const cleanedResponse = responseText
+      .replace(/```json\n?/g, '')
+      .replace(/```\n?/g, '')
+      .trim();
+    
+    const aiResponse = JSON.parse(cleanedResponse);
+
+    // Save to database
+    const note = await Note.create({
+      user: userId,
+      originalText: text,
+      summary: aiResponse.summary,
+      keyPoints: aiResponse.keyPoints,
+      difficulty: aiResponse.difficulty,
+      estimatedReadTime: aiResponse.estimatedReadTime,
+      createdAt: new Date(),
+    });
+
+    // Update user's note count
+    await User.findByIdAndUpdate(userId, {
+      $inc: { totalNotes: 1 },
+    });
+
+    res.json({
+      success: true,
+      ...aiResponse,
+      noteId: note._id,
+    });
+  } catch (error) {
+    console.error('Summarization error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to summarize notes. Please try again.',
+      error: error.message,
+    });
+  }
+};
+
+export const generateQuiz = async (req, res) => {
+  try {
+    const { noteId, difficulty = 'medium', questionCount = 5 } = req.body;
+    const userId = req.user.id;
+    
+    // Find the note
+    const note = await Note.findOne({ _id: noteId, user: userId });
+    if (!note) {
+      return res.status(404).json({ 
+        success: false, 
+        message: 'Note not found' 
+      });
+    }
+
+    // Initialize Gemini
+    const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+    
+    // Create quiz generation prompt
+    const prompt = `
+      Generate ${questionCount} multiple-choice questions based on these study notes.
+      Difficulty level: ${difficulty}
+      
+      Requirements:
+      - Questions should test understanding, not just memorization
+      - 4 options per question (A, B, C, D)
+      - Only one correct answer
+      - Include brief explanations for correct answers
+      - Mix question types (definition, application, analysis)
+      
+      Notes:
+      ${note.originalText}
+      
+      Return ONLY valid JSON in this exact format:
+      [
+        {
+          "question": "What is...?",
+          "options": ["Option A", "Option B", "Option C", "Option D"],
+          "correctAnswer": 0,
+          "explanation": "Option A is correct because...",
+          "difficulty": "easy|medium|hard"
+        }
+      ]
+    `;
+
+    const result = await model.generateContent(prompt);
+    let quizData = result.response.text();
+    
+    // Clean and parse JSON
+    quizData = quizData
+      .replace(/```json\n?/g, '')
+      .replace(/```\n?/g, '')
+      .trim();
+    
+    const questions = JSON.parse(quizData);
+
+    // Save quiz to database
+    const Quiz = (await import('../models/Quiz.js')).default;
+    const quiz = await Quiz.create({
+      user: userId,
+      note: noteId,
+      title: `Quiz: ${note.title || 'Untitled'}`,
+      questions,
+      difficulty,
+      createdAt: new Date(),
+    });
+
+    res.json({
+      success: true,
+      quiz: {
+        id: quiz._id,
+        questions,
+        totalQuestions: questions.length,
+      },
+    });
+  } catch (error) {
+    console.error('Quiz generation error:', error);
+    res.status(500).json({ 
+      success: false,
+      message: 'Failed to generate quiz',
+      error: error.message,
+    });
+  }
+};
+
+export const getNoteHistory = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { page = 1, limit = 10 } = req.query;
+
+    const notes = await Note.find({ user: userId })
+      .sort({ createdAt: -1 })
+      .limit(limit * 1)
+      .skip((page - 1) * limit)
+      .select('-originalText'); // Don't send full text in list
+
+    const total = await Note.countDocuments({ user: userId });
+
+    res.json({
+      success: true,
+      notes,
+      pagination: {
+        currentPage: page,
+        totalPages: Math.ceil(total / limit),
+        totalNotes: total,
+      },
+    });
+  } catch (error) {
+    console.error('Fetch notes error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch notes',
+    });
+  }
+};
+
+
+ZUSTAND STORE PATTERN
+--------------------------------------------------------------------------------
+File: client/src/store/useStore.js
+
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+
+export const useStore = create(
+  persist(
+    (set, get) => ({
+      // Auth state
+      user: null,
+      token: null,
+      isAuthenticated: false,
+
+      // Theme state
+      theme: 'light',
+
+      // UI state
+      sidebarOpen: true,
+      loading: false,
+
+      // Actions
+      setUser: (user) => set({ user, isAuthenticated: true }),
+      
+      setToken: (token) => set({ token }),
+      
+      logout: () => set({ 
+        user: null, 
+        token: null, 
+        isAuthenticated: false 
+      }),
+
+      toggleTheme: () => set((state) => ({
+        theme: state.theme === 'light' ? 'dark' : 'light',
+      })),
+
+      setTheme: (theme) => set({ theme }),
+
+      toggleSidebar: () => set((state) => ({
+        sidebarOpen: !state.sidebarOpen,
+      })),
+
+      setLoading: (loading) => set({ loading }),
+    }),
+    {
+      name: 'study-planner-storage',
+      partialize: (state) => ({
+        user: state.user,
+        token: state.token,
+        isAuthenticated: state.isAuthenticated,
+        theme: state.theme,
+      }),
+    }
+  )
+);
+
+
+================================================================================
+SECTION 6: PAGE-BY-PAGE IMPLEMENTATION
+================================================================================
+
+PAGE 1: LANDING PAGE (/)
+--------------------------------------------------------------------------------
+PURPOSE: Hook judges in first 5 seconds with stunning visuals
+
+SECTIONS:
+  1. Hero Section
+     - Animated headline with gradient text
+     - Subheadline explaining value proposition
+     - Two CTA buttons: "Get Started Free" | "Watch Demo"
+     - Three.js background (light mode particles)
+     - Scroll indicator animation
+
+  2. Features Grid (4 cards)
+     - Smart Notes Summarizer
+     - Personalized Study Planner
+     - AI Doubt Solver
+     - Quiz Generator
+     - Each card: Icon + Title + Description + Hover effect (3D tilt)
+
+  3. How It Works (3 steps)
+     - Step 1: Upload your notes
+     - Step 2: AI processes and organizes
+     - Step 3: Study smarter with personalized tools
+     - Animated connecting lines between steps
+
+  4. Statistics Section
+     - "X Notes Summarized"
+     - "Y Quizzes Generated"
+     - "Z Hours Saved"
+     - Animated counter components
+
+  5. Testimonials (Optional if time)
+     - Fake student reviews
+     - Profile pictures + quotes
+     - Star ratings
+
+  6. CTA Section
+     - Final push to sign up
+     - "Ready to ace your exams?"
+     - Sign up button
+
+KEY ANIMATIONS:
+  - Fade in on scroll (Framer Motion)
+  - Parallax effect on hero
+  - Cards slide in from sides
+  - Numbers count up animation
+
+
+PAGE 2: AUTHENTICATION (/auth)
+--------------------------------------------------------------------------------
+LAYOUT: Centered card with tabs
+
+TAB 1: Google OAuth
+  - Google logo button
+  - "Continue with Google"
+  - One-click authentication
+  - Redirect to dashboard on success
+
+TAB 2: OTP Login
+  - Input field: Email or Phone
+  - "Send OTP" button
+  - OTP input (6 digits)
+  - "Verify & Login" button
+  - Countdown timer for resend
+
+DESIGN FEATURES:
+  - Glass-morphism card effect
+  - Animated background (subtle Three.js)
+  - Loading states with spinners
+  - Error messages with toast notifications
+  - Success animation before redirect
+
+
+PAGE 3: DASHBOARD (/dashboard)
+--------------------------------------------------------------------------------
+LAYOUT: Sidebar + Main Content + Background
+
+SIDEBAR (Fixed Left):
+  - Logo
+  - User profile picture
+  - Navigation links:
+    * Dashboard (active)
+    * Notes Library
+    * Doubt Solver
+    * Quizzes
+    * Study Planner
+    * Profile Settings
+  - Theme toggle (bottom)
+  - Logout button
+
+MAIN CONTENT:
+  1. Welcome Header
+     - "Welcome back, [Name]!"
+     - Current date & time
+     - Motivational quote (Gemini-generated)
+
+  2. Stats Cards (4 across)
+     - Total Notes
+     - Quizzes Taken
+     - Study Streak
+     - Hours Studied
+     - Each with icon + number + trend indicator
+
+  3. Quick Actions (3 cards)
+     - "Summarize New Note" → Notes page
+     - "Take a Quiz" → Quiz page
+     - "Ask a Doubt" → Doubt Solver
+
+  4. Recent Activity Feed
+     - Timeline of recent actions
+     - "Summarized 'Physics Chapter 3'"
+     - "Completed 'Math Quiz #12'"
+     - "Asked about 'Quantum mechanics'"
+
+  5. Study Plan Preview
+     - Today's tasks from planner
+     - Checkbox to mark complete
+     - "View Full Plan" link
+
+  6. Progress Chart
+     - Weekly study time graph (Recharts)
+     - Line chart showing hours per day
+
+BACKGROUND:
+  - Context-aware Gemini image
+  - Three.js overlay (subtle)
+  - Blur effect for readability
+
+
+PAGE 4: NOTES LIBRARY (/notes)
+--------------------------------------------------------------------------------
+LAYOUT: List view with filters
+
+HEADER:
+  - Page title: "Your Notes Library"
+  - Search bar
+  - Filter dropdown: All | Recent | By Subject
+  - "Add New Note" button (→ Summarizer)
+
+NOTES LIST:
+  - Each note card shows:
+    * Title (auto-generated or user-set)
+    * First 100 chars of summary
+    * Date created
+    * Subject tag
+    * "View Full" | "Generate Quiz" buttons
+  - Infinite scroll or pagination
+
+SUMMARIZER MODAL/PAGE:
+  - Full NoteSummarizer component
+  - Upload or paste notes
+  - Display summary with save option
+  - Add tags & title
+
+
+PAGE 5: AI DOUBT SOLVER (/doubts)
+--------------------------------------------------------------------------------
+LAYOUT: Chat interface (like ChatGPT)
+
+LEFT SIDEBAR:
+  - Conversation history
+  - "New Chat" button
+  - List of past doubt sessions
+  - Click to load conversation
+
+MAIN CHAT AREA:
+  - Messages in bubbles
+  - User messages: Right side (blue)
+  - AI responses: Left side (gradient purple/indigo)
+  - Code syntax highlighting (if code in message)
+  - LaTeX rendering for math equations
+
+INPUT AREA:
+  - Large text input
+  - "Ask your doubt..." placeholder
+  - Send button (icon)
+  - File attachment option (for images of problems)
+  - Voice input (optional if time)
+
+AI RESPONSES:
+  - Typing indicator while generating
+  - Formatted with markdown
+  - Step-by-step explanations
+  - Related resources links (optional)
+
+
+PAGE 6: QUIZ GENERATOR & TAKER (/quiz)
+--------------------------------------------------------------------------------
+TWO MODES:
+
+MODE 1: Quiz Generation
+  - Select a note from dropdown
+  - Choose difficulty: Easy | Medium | Hard
+  - Choose number of questions: 5 | 10 | 15
+  - "Generate Quiz" button
+  - Loading animation (3-5 seconds)
+
+MODE 2: Quiz Taking
+  - Full-screen quiz interface
+  - Question counter: "Question 3 of 10"
+  - Timer (countdown)
+  - Question text (large, readable)
+  - 4 multiple-choice options (A, B, C, D)
+  - Selected option highlighted
+  - "Next Question" button
+  - "Submit Quiz" on last question
+
+MODE 3: Results
+  - Score display: "8/10 (80%)"
+  - Circular progress chart
+  - Question-by-question breakdown:
+    * Question text
+    * Your answer (✓ correct / ✗ wrong)
+    * Correct answer (if wrong)
+    * Explanation
+  - "Retake Quiz" | "Generate New Quiz" buttons
+
+
+PAGE 7: STUDY PLANNER (/planner)
+--------------------------------------------------------------------------------
+LAYOUT: Calendar view + Task list
+
+HEADER:
+  - "Your Study Plan"
+  - Month/Week view toggle
+  - "Generate AI Plan" button
+
+CALENDAR (Full Calendar library):
+  - Month view with tasks on dates
+  - Color-coded by subject
+  - Click date to add/view tasks
+
+TASK SIDEBAR:
+  - Today's tasks at top
+  - Upcoming deadlines
+  - Task cards with:
+    * Checkbox (complete/incomplete)
+    * Task title
+    * Subject tag
+    * Due date
+    * Priority (high/medium/low)
+  - "Add New Task" button
+
+AI PLAN GENERATOR MODAL:
+  - Input fields:
+    * Exam/deadline date
+    * Subject
+    * Current knowledge level
+    * Available study hours per day
+  - "Generate Plan" button
+  - AI creates day-by-day breakdown
+  - User can edit and save
+
+
+PAGE 8: PROFILE SETTINGS (/profile)
+--------------------------------------------------------------------------------
+SECTIONS:
+
+1. Personal Information
+   - Profile picture upload
+   - Name
+   - Email (non-editable)
+   - Bio
+
+2. Study Preferences
+   - Default difficulty level
+   - Preferred study times
+   - Notification settings
+   - Theme preference (light/dark/auto)
+
+3. Account Statistics
+   - Member since date
+   - Total notes created
+   - Total quizzes taken
+   - Study streak
+
+4. Danger Zone
+   - Delete account button (with confirmation)
+
+
+================================================================================
+SECTION 7: DATABASE SCHEMA
+================================================================================
+
+USER MODEL
+--------------------------------------------------------------------------------
+{
+  _id: ObjectId,
+  name: String (required),
+  email: String (required, unique),
+  phone: String (optional),
+  password: String (hashed, optional for OAuth),
+  googleId: String (optional),
+  profilePicture: String (URL),
+  bio: String,
+  
+  // Preferences
+  theme: String (enum: ['light', 'dark', 'auto'], default: 'light'),
+  defaultDifficulty: String (enum: ['easy', 'medium', 'hard']),
+  notificationsEnabled: Boolean (default: true),
+  
+  // Statistics
+  totalNotes: Number (default: 0),
+  totalQuizzes: Number (default: 0),
+  totalDoubts: Number (default: 0),
+  studyStreak: Number (default: 0),
+  lastActiveDate: Date,
+  
+  // OTP
+  otp: String,
+  otpExpiry: Date,
+  
+  createdAt: Date (default: Date.now),
+  updatedAt: Date,
+}
+
+
+NOTE MODEL
+--------------------------------------------------------------------------------
+{
+  _id: ObjectId,
+  user: ObjectId (ref: 'User', required),
+  
+  // Original Content
+  originalText: String (required),
+  title: String,
+  subject: String (e.g., 'Mathematics', 'Physics'),
+  
+  // AI Generated
+  summary: String (required),
+  keyPoints: [String],
+  difficulty: String (enum: ['beginner', 'intermediate', 'advanced']),
+  estimatedReadTime: String (e.g., '5 minutes'),
+  
+  // Metadata
+  tags: [String],
+  fileUrl: String (if uploaded as file),
+  wordCount: Number,
+  
+  createdAt: Date (default: Date.now),
+  updatedAt: Date,
+}
+
+
+QUIZ MODEL
+--------------------------------------------------------------------------------
+{
+  _id: ObjectId,
+  user: ObjectId (ref: 'User', required),
+  note: ObjectId (ref: 'Note'),
+  
+  title: String (required),
+  difficulty: String (enum: ['easy', 'medium', 'hard']),
+  
+  questions: [
+    {
+      question: String (required),
+      options: [String] (4 options, required),
+      correctAnswer: Number (index 0-3, required),
+      explanation: String,
+      difficulty: String,
+    }
+  ],
+  
+  // If quiz is taken
+  isTaken: Boolean (default: false),
+  score: Number,
+  answers: [Number], // User's answers
+  completedAt: Date,
+  timeTaken: Number (seconds),
+  
+  createdAt: Date (default: Date.now),
+}
+
+
+DOUBT MODEL
+--------------------------------------------------------------------------------
+{
+  _id: ObjectId,
+  user: ObjectId (ref: 'User', required),
+  
+  title: String (first message preview),
+  subject: String,
+  
+  messages: [
+    {
+      role: String (enum: ['user', 'assistant']),
+      content: String (required),
+      timestamp: Date (default: Date.now),
+      attachments: [String] (image URLs if any),
+    }
+  ],
+  
+  isResolved: Boolean (default: false),
+  
+  createdAt: Date (default: Date.now),
+  updatedAt: Date,
+}
+
+
+STUDY PLAN MODEL
+--------------------------------------------------------------------------------
+{
+  _id: ObjectId,
+  user: ObjectId (ref: 'User', required),
+  
+  title: String (e.g., 'Final Exams Preparation'),
+  subject: String,
+  examDate: Date,
+  
+  tasks: [
+    {
+      title: String (required),
+      description: String,
+      date: Date (required),
+      duration: Number (minutes),
+      completed: Boolean (default: false),
+      priority: String (enum: ['low', 'medium', 'high']),
+      subject: String,
+    }
+  ],
+  
+  generatedByAI: Boolean (default: false),
+  
+  createdAt: Date (default: Date.now),
+  updatedAt: Date,
+}
+
+
+================================================================================
+SECTION 8: API ENDPOINTS REFERENCE
+================================================================================
+
+AUTHENTICATION ENDPOINTS
+--------------------------------------------------------------------------------
+POST   /api/auth/register
+       Body: { name, email, password }
+       Response: { user, token }
+
+POST   /api/auth/login
+       Body: { email, password }
+       Response: { user, token }
+
+GET    /api/auth/google
+       Redirects to Google OAuth
+
+GET    /api/auth/google/callback
+       Handles OAuth callback
+       Response: Redirects to dashboard with token
+
+POST   /api/auth/send-otp
+       Body: { email or phone }
+       Response: { success, message }
+
+POST   /api/auth/verify-otp
+       Body: { email/phone, otp }
+       Response: { user, token }
+
+GET    /api/auth/me
+       Headers: Authorization: Bearer <token>
+       Response: { user }
+
+POST   /api/auth/logout
+       Headers: Authorization: Bearer <token>
+       Response: { success }
+
+
+NOTE ENDPOINTS
+--------------------------------------------------------------------------------
+POST   /api/notes/summarize
+       Headers: Authorization: Bearer <token>
+       Body: { text }
+       Response: { summary, keyPoints, noteId, ... }
+
+GET    /api/notes
+       Headers: Authorization: Bearer <token>
+       Query: ?page=1&limit=10&subject=Math
+       Response: { notes, pagination }
+
+GET    /api/notes/:id
+       Headers: Authorization: Bearer <token>
+       Response: { note }
+
+PUT    /api/notes/:id
+       Headers: Authorization: Bearer <token>
+       Body: { title, tags, ... }
+       Response: { note }
+
+DELETE /api/notes/:id
+       Headers: Authorization: Bearer <token>
+       Response: { success }
+
+
+QUIZ ENDPOINTS
+--------------------------------------------------------------------------------
+POST   /api/quiz/generate
+       Headers: Authorization: Bearer <token>
+       Body: { noteId, difficulty, questionCount }
+       Response: { quiz }
+
+GET    /api/quiz
+       Headers: Authorization: Bearer <token>
+       Response: { quizzes }
+
+GET    /api/quiz/:id
+       Headers: Authorization: Bearer <token>
+       Response: { quiz }
+
+POST   /api/quiz/:id/submit
+       Headers: Authorization: Bearer <token>
+       Body: { answers: [0, 2, 1, 3, ...] }
+       Response: { score, correctAnswers, results }
+
+DELETE /api/quiz/:id
+       Headers: Authorization: Bearer <token>
+       Response: { success }
+
+
+DOUBT ENDPOINTS
+--------------------------------------------------------------------------------
+POST   /api/doubts
+       Headers: Authorization: Bearer <token>
+       Body: { message, subject }
+       Response: { doubt }
+
+GET    /api/doubts
+       Headers: Authorization: Bearer <token>
+       Response: { doubts }
+
+GET    /api/doubts/:id
+       Headers: Authorization: Bearer <token>
+       Response: { doubt }
+
+POST   /api/doubts/:id/message
+       Headers: Authorization: Bearer <token>
+       Body: { message }
+       Response: { doubt, aiResponse }
+
+PUT    /api/doubts/:id/resolve
+       Headers: Authorization: Bearer <token>
+       Response: { doubt }
+
+
+PLANNER ENDPOINTS
+--------------------------------------------------------------------------------
+POST   /api/planner/generate
+       Headers: Authorization: Bearer <token>
+       Body: { examDate, subject, hoursPerDay, currentLevel }
+       Response: { plan }
+
+GET    /api/planner
+       Headers: Authorization: Bearer <token>
+       Response: { plans }
+
+GET    /api/planner/:id
+       Headers: Authorization: Bearer <token>
+       Response: { plan }
+
+POST   /api/planner/:id/task
+       Headers: Authorization: Bearer <token>
+       Body: { title, date, duration, priority }
+       Response: { plan }
+
+PUT    /api/planner/:planId/task/:taskId
+       Headers: Authorization: Bearer <token>
+       Body: { completed, title, ... }
+       Response: { plan }
+
+DELETE /api/planner/:planId/task/:taskId
+       Headers: Authorization: Bearer <token>
+       Response: { plan }
+
+
+BACKGROUND GENERATION ENDPOINT
+--------------------------------------------------------------------------------
+POST   /api/background/generate
+       Headers: Authorization: Bearer <token>
+       Body: { context, timeOfDay, subject, theme }
+       Response: { imageUrl, quote }
+
+
+USER PROFILE ENDPOINTS
+--------------------------------------------------------------------------------
+GET    /api/user/profile
+       Headers: Authorization: Bearer <token>
+       Response: { user }
+
+PUT    /api/user/profile
+       Headers: Authorization: Bearer <token>
+       Body: { name, bio, preferences, ... }
+       Response: { user }
+
+POST   /api/user/profile/picture
+       Headers: Authorization: Bearer <token>
+       Body: FormData with image file
+       Response: { profilePictureUrl }
+
+GET    /api/user/stats
+       Headers: Authorization: Bearer <token>
+       Response: { totalNotes, totalQuizzes, studyStreak, ... }
+
+
+================================================================================
+SECTION 9: DEPLOYMENT STRATEGY
+================================================================================
+
+FRONTEND DEPLOYMENT (Vercel)
+--------------------------------------------------------------------------------
+1. Push code to GitHub repository
+
+2. Connect Vercel to GitHub
+   - Import project
+   - Select repository
+   - Framework preset: Vite
+   - Build command: npm run build
+   - Output directory: dist
+
+3. Environment Variables (Vercel Dashboard):
+   VITE_API_URL=https://your-backend-url.com
+   VITE_GOOGLE_CLIENT_ID=your_google_client_id
+
+4. Deploy
+   - Automatic deployment on every push to main
+   - Preview deployments on pull requests
+
+
+BACKEND DEPLOYMENT (Railway/Render)
+--------------------------------------------------------------------------------
+1. Create new project on Railway or Render
+
+2. Connect to GitHub repository (server folder)
+
+3. Environment Variables:
+   NODE_ENV=production
+   MONGODB_URI=your_mongodb_atlas_uri
+   JWT_SECRET=your_secret_key
+   GOOGLE_CLIENT_ID=your_google_client_id
+   GOOGLE_CLIENT_SECRET=your_google_client_secret
+   GEMINI_API_KEY=your_gemini_api_key
+   EMAIL_USER=your_email@gmail.com
+   EMAIL_PASS=your_app_password
+   FRONTEND_URL=https://your-vercel-app.vercel.app
+
+4. Build & Start Commands:
+   Build: npm install
+   Start: node server.js
+
+5. Deploy
+   - Automatic deployment on push
+
+
+DATABASE (MongoDB Atlas)
+--------------------------------------------------------------------------------
+1. Create free cluster on MongoDB Atlas
+
+2. Create database user
+
+3. Whitelist IP addresses (0.0.0.0/0 for all, or specific)
+
+4. Get connection string
+   mongodb+srv://username:password@cluster.mongodb.net/studyplanner
+
+5. Use connection string in backend environment variables
+
+
+DOMAIN & SSL
+--------------------------------------------------------------------------------
+- Vercel provides automatic HTTPS
+- Railway/Render provides automatic HTTPS
+- (Optional) Add custom domain in Vercel/Railway dashboard
+
+
+================================================================================
+SECTION 10: DEMO PREPARATION CHECKLIST
+================================================================================
+
+BEFORE THE DEMO
+--------------------------------------------------------------------------------
+☐ Create demo user account
+  Email: demo@studyplanner.com
+  Password: Demo123!
+
+☐ Populate with sample data:
+  - 5-6 summarized notes (different subjects)
+  - 2-3 completed quizzes with scores
+  - 1-2 ongoing doubt conversations
+  - Study plan with tasks for next week
+  - Set study streak to 7 days
+
+☐ Test all features end-to-end:
+  - Login with Google & OTP
+  - Summarize a new note
+  - Generate and take a quiz
+  - Ask a doubt
+  - Create a study plan
+  - Toggle dark/light mode
+  - Test on mobile device
+
+☐ Prepare demo script:
+  1. Landing page walkthrough (15 sec)
+  2. Quick auth demo (15 sec)
+  3. Dashboard overview (30 sec)
+  4. Note summarization (60 sec)
+  5. Quiz generation & taking (60 sec)
+  6. Doubt solver interaction (45 sec)
+  7. Study planner (45 sec)
+  8. Theme toggle & background change (15 sec)
+
+☐ Take screenshots of key features
+
+☐ Record 2-minute demo video (backup)
+
+
+DEMO TALKING POINTS
+--------------------------------------------------------------------------------
+1. "AI-powered study companion built with MERN stack"
+
+2. "Three.js animated backgrounds that adapt to dark/light mode"
+
+3. "Google Gemini AI for smart summarization, doubt solving, and quiz generation"
+
+4. "One-click Google authentication plus OTP login for flexibility"
+
+5. "Personalized study planner that generates AI-optimized schedules"
+
+6. "Context-aware motivational backgrounds generated in real-time"
+
+7. "Built in 4-5 hours for this hackathon with focus on UX and AI integration"
+
+
+POTENTIAL JUDGE QUESTIONS & ANSWERS
+--------------------------------------------------------------------------------
+Q: "How does the AI summarization work?"
+A: "We use Google Gemini Pro API with carefully crafted prompts that 
+    extract key concepts, organize information hierarchically, and format 
+    with bullet points for maximum readability."
+
+Q: "What makes this different from other study apps?"
+A: "The combination of immersive 3D backgrounds, context-aware AI that 
+    adapts to your study patterns, and the seamless integration of 4 core 
+    features in one platform. Plus, the dynamic backgrounds that change 
+    based on time, subject, and user progress."
+
+Q: "How scalable is this?"
+A: "The architecture uses MongoDB for horizontal scaling, stateless JWT 
+    auth, and can easily integrate Redis caching. The AI calls can be 
+    rate-limited and batched for cost optimization."
+
+Q: "What's next for this project?"
+A: "Real-time collaborative study sessions, spaced repetition algorithm 
+    for optimal quiz scheduling, mobile app with offline support, and 
+    integration with popular note-taking apps like Notion."
+
+
+BACKUP PLANS
+--------------------------------------------------------------------------------
+- If live demo fails: Have recorded video ready
+- If API quota exceeded: Use pre-generated responses
+- If internet issues: Localhost setup with mock data
+- If questions go deep: Have architecture diagram ready
+
+
+================================================================================
+SECTION 11: QUICK REFERENCE - COMPLETE DEPENDENCY LIST
+================================================================================
+
+CLIENT PACKAGE.JSON
+--------------------------------------------------------------------------------
+{
+  "name": "ai-study-planner-client",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.22.0",
+    
+    "@tanstack/react-query": "^5.28.0",
+    "axios": "^1.6.7",
+    "zustand": "^4.5.2",
+    
+    "@react-three/fiber": "^8.15.19",
+    "@react-three/drei": "^9.99.5",
+    "three": "^0.162.0",
+    "maath": "^0.10.7",
+    
+    "framer-motion": "^11.0.8",
+    
+    "lucide-react": "^0.344.0",
+    
+    "sonner": "^1.4.3",
+    "react-hot-toast": "^2.4.1",
+    
+    "recharts": "^2.12.2",
+    
+    "date-fns": "^3.3.1",
+    
+    "clsx": "^2.1.0",
+    "tailwind-merge": "^2.2.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.2.1",
+    "vite": "^5.1.4",
+    "tailwindcss": "^3.4.1",
+    "postcss": "^8.4.35",
+    "autoprefixer": "^10.4.18"
+  }
+}
+
+
+SERVER PACKAGE.JSON
+--------------------------------------------------------------------------------
+{
+  "name": "ai-study-planner-server",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^8.2.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    
+    "jsonwebtoken": "^9.0.2",
+    "bcryptjs": "^2.4.3",
+    
+    "passport": "^0.7.0",
+    "passport-google-oauth20": "^2.0.0",
+    "express-session": "^1.18.0",
+    
+    "@google/generative-ai": "^0.2.1",
+    
+    "nodemailer": "^6.9.9",
+    "twilio": "^5.0.0",
+    
+    "express-validator": "^7.0.1",
+    "express-rate-limit": "^7.1.5",
+    "helmet": "^7.1.0",
+    
+    "multer": "^1.4.5-lts.1",
+    "cloudinary": "^2.0.3",
+    
+    "winston": "^3.11.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  }
+}
+
+
+================================================================================
+SECTION 12: HACKATHON PRESENTATION TIPS
+================================================================================
+
+DEMO DO'S
+--------------------------------------------------------------------------------
+✓ Start with the problem: "Students waste hours summarizing notes manually"
+✓ Show the solution: "Our AI does it in 30 seconds"
+✓ Walk through user journey: Landing → Auth → Dashboard → Feature → Result
+✓ Highlight technical achievements: "Real-time 3D backgrounds with Three.js"
+✓ Show both light and dark modes
+✓ Mention AI integration prominently: "Powered by Google Gemini Pro"
+✓ Keep demo under 3 minutes
+✓ End with impact: "This saves students X hours per week"
+
+
+DEMO DON'TS
+--------------------------------------------------------------------------------
+✗ Don't start with tech stack details
+✗ Don't get stuck on one feature too long
+✗ Don't apologize for missing features
+✗ Don't scroll through code unless asked
+✗ Don't use technical jargon without explaining
+✗ Don't ignore visual bugs (acknowledge and move on)
+
+
+PRESENTATION STRUCTURE
+--------------------------------------------------------------------------------
+1. Hook (10 seconds)
+   "Did you know the average student spends 15 hours a week just taking 
+    and organizing notes?"
+
+2. Solution (20 seconds)
+   "We built an AI-powered study companion that summarizes notes, solves 
+    doubts, generates quizzes, and creates personalized study plans."
+
+3. Demo (2-3 minutes)
+   Live walkthrough of key features
+
+4. Technical Highlights (30 seconds)
+   "Built with MERN stack, Three.js for immersive 3D backgrounds, Google 
+    Gemini AI, and deployed on Vercel and Railway."
+
+5. Impact (10 seconds)
+   "This could save millions of students thousands of hours, letting them 
+    focus on actual learning instead of admin work."
+
+6. Next Steps (10 seconds)
+   "We're planning to add collaborative features and mobile apps next."
+
+
+================================================================================
+                              END OF DOCUMENT
+================================================================================
+
+GOOD LUCK WITH YOUR HACKATHON! 🚀
+
+Remember:
+- Focus on polish over features (4 features done well > 8 done poorly)
+- Test frequently on both light and dark modes
+- Keep animations smooth (60 FPS)
+- Make it responsive from the start
+- Deploy early, deploy often
+- Have fun and learn!
+
+If you get stuck on any specific implementation, refer to the code patterns 
+in Section 5 or reach out for help.
+
+                    YOU'VE GOT THIS! 💪

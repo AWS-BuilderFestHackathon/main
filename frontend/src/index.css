@@ -10,22 +10,40 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
   }
 
   html {
     scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
 
   body {
     @apply font-sans text-slate-900 dark:text-slate-100 bg-slate-50 dark:bg-slate-900 antialiased;
     min-height: 100vh;
+    min-height: 100dvh; /* dynamic viewport height — works on iOS */
     transition: background-color 0.3s ease, color 0.3s ease;
+    overscroll-behavior: none; /* prevent pull-to-refresh in app */
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* iOS safe areas */
+  #root {
+    padding-top: env(safe-area-inset-top);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+
+  /* Prevent iOS zoom on input focus */
+  input, select, textarea {
+    font-size: 16px !important;
   }
 
   /* Scrollbar styling */
   ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 4px;
+    height: 4px;
   }
   ::-webkit-scrollbar-track {
     @apply bg-transparent;
@@ -35,6 +53,17 @@
   }
   ::-webkit-scrollbar-thumb:hover {
     @apply bg-slate-400 dark:bg-slate-600;
+  }
+
+  /* Hide scrollbar on mobile but keep scroll */
+  @media (max-width: 768px) {
+    ::-webkit-scrollbar {
+      display: none;
+    }
+    * {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
   }
 
   /* Focus rings */
@@ -66,13 +95,13 @@
   }
 
   .card-shadow {
-    box-shadow: 
+    box-shadow:
       0 1px 3px rgba(0, 0, 0, 0.05),
       0 10px 20px -5px rgba(99, 102, 241, 0.08);
   }
 
   .card-shadow-dark {
-    box-shadow: 
+    box-shadow:
       0 1px 3px rgba(0, 0, 0, 0.3),
       0 10px 20px -5px rgba(99, 102, 241, 0.15);
   }
@@ -80,48 +109,110 @@
   .text-balance {
     text-wrap: balance;
   }
+
+  /* Safe-area bottom padding for pages with mobile nav */
+  .safe-bottom {
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 80px);
+  }
+
+  /* Touch-friendly hit target */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Tabular numbers for aligned counters */
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum';
+  }
 }
 
 /* ── Component Overrides ─────────────────────────── */
 @layer components {
   .btn-primary {
-    @apply px-6 py-3 rounded-xl font-semibold text-white gradient-bg 
-           hover:gradient-bg-hover transform hover:scale-[1.02] 
-           active:scale-[0.98] transition-all duration-200
-           shadow-lg shadow-primary-500/25 hover:shadow-primary-500/40;
+    @apply px-6 py-3 rounded-2xl font-semibold text-white
+           transform active:scale-[0.96] transition-all duration-300 ease-out
+           touch-target relative overflow-hidden;
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a78bfa 100%);
+    background-size: 200% 200%;
+    background-position: 0% 50%;
+    border: 1px solid rgba(255,255,255,0.15);
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.25),
+                0 1px 3px rgba(0, 0, 0, 0.08),
+                inset 0 1px 0 rgba(255,255,255,0.15);
+  }
+  .btn-primary:hover {
+    background-position: 100% 50%;
+    box-shadow: 0 8px 30px rgba(99, 102, 241, 0.4),
+                0 4px 10px rgba(139, 92, 246, 0.3),
+                inset 0 1px 0 rgba(255,255,255,0.2);
+    transform: translateY(-2px) scale(1.02);
+  }
+  .btn-primary::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .btn-primary:hover::after {
+    opacity: 1;
   }
 
   .btn-secondary {
-    @apply px-6 py-3 rounded-xl font-semibold 
-           border-2 border-primary-500 text-primary-600 dark:text-primary-400
-           hover:bg-primary-50 dark:hover:bg-primary-950
-           transform hover:scale-[1.02] active:scale-[0.98] 
-           transition-all duration-200;
+    @apply px-6 py-3 rounded-2xl font-semibold
+           text-primary-600 dark:text-primary-400
+           transform active:scale-[0.96] transition-all duration-300 ease-out
+           touch-target relative overflow-hidden;
+    border: 1px solid rgba(99, 102, 241, 0.25);
+    background: rgba(99, 102, 241, 0.04);
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.06);
+    backdrop-filter: blur(8px);
+  }
+  .btn-secondary:hover {
+    border-color: rgba(99, 102, 241, 0.45);
+    background: rgba(99, 102, 241, 0.08);
+    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.15),
+                0 0 0 1px rgba(99, 102, 241, 0.1);
+    transform: translateY(-2px) scale(1.02);
+  }
+  .dark .btn-secondary {
+    border-color: rgba(129, 140, 248, 0.2);
+    background: rgba(129, 140, 248, 0.05);
+  }
+  .dark .btn-secondary:hover {
+    border-color: rgba(129, 140, 248, 0.4);
+    background: rgba(129, 140, 248, 0.1);
+    box-shadow: 0 4px 20px rgba(129, 140, 248, 0.2),
+                0 0 0 1px rgba(129, 140, 248, 0.15);
   }
 
   .card {
-    @apply rounded-2xl p-6 glass card-shadow dark:card-shadow-dark 
-           transition-all duration-300 hover:shadow-xl;
+    @apply rounded-2xl p-4 sm:p-6 glass card-shadow dark:card-shadow-dark
+           transition-all duration-300;
   }
 
   .input-field {
-    @apply w-full px-4 py-3 rounded-xl border-2 border-slate-200 dark:border-slate-700 
-           bg-white dark:bg-slate-800 
+    @apply w-full px-4 py-3 rounded-xl border-2 border-slate-200 dark:border-slate-700
+           bg-white dark:bg-slate-800
            focus:border-primary-500 dark:focus:border-primary-400
-           transition-colors duration-200 placeholder:text-slate-400;
+           transition-colors duration-200 placeholder:text-slate-400
+           touch-target;
   }
 
   .sidebar-link {
-    @apply flex items-center gap-3 px-4 py-3 rounded-xl 
-           text-slate-600 dark:text-slate-400 
-           hover:bg-primary-50 dark:hover:bg-primary-950 
-           hover:text-primary-600 dark:hover:text-primary-400 
-           transition-all duration-200 font-medium;
+    @apply flex items-center gap-3 px-4 py-3 rounded-xl
+           text-slate-600 dark:text-slate-400
+           hover:bg-primary-50 dark:hover:bg-primary-950
+           hover:text-primary-600 dark:hover:text-primary-400
+           transition-all duration-200 font-medium touch-target;
   }
 
   .sidebar-link-active {
-    @apply bg-primary-50 dark:bg-primary-950 
-           text-primary-600 dark:text-primary-400 
+    @apply bg-primary-50 dark:bg-primary-950
+           text-primary-600 dark:text-primary-400
            border-l-4 border-primary-500;
   }
 }

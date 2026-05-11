@@ -7,6 +7,7 @@ import { useStore } from './store/useStore';
 import { ErrorBoundary } from './components/shared/ErrorBoundary';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import { Sidebar } from './components/layout/Sidebar';
+import { MobileNav } from './components/layout/MobileNav';
 import { BackgroundManager } from './components/3d/BackgroundManager';
 
 // Pages
@@ -23,26 +24,35 @@ const queryClient = new QueryClient({
   defaultOptions: { queries: { retry: 1, refetchOnWindowFocus: false } },
 });
 
-// Layout wrapper for authenticated pages (sidebar + content + background)
+// Layout for authenticated pages:
+// Desktop → sidebar left + content right
+// Mobile  → top header + content + bottom tab nav
 const AppLayout = () => {
   const sidebarOpen = useStore((s) => s.sidebarOpen);
 
   return (
-    <div className="min-h-screen relative">
+    <div className="min-h-screen min-h-[100dvh] relative">
       <BackgroundManager />
       <Sidebar />
+      <MobileNav />
+
+      {/* Main Content Area */}
       <motion.main
         initial={false}
-        animate={{ marginLeft: sidebarOpen ? 260 : 72 }}
+        animate={{ marginLeft: typeof window !== 'undefined' && window.innerWidth >= 1024 ? (sidebarOpen ? 260 : 72) : 0 }}
         transition={{ duration: 0.3, ease: 'easeInOut' }}
-        className="min-h-screen p-6 lg:p-8 relative z-10"
+        className="min-h-screen min-h-[100dvh] relative z-10
+          pt-[calc(env(safe-area-inset-top,0px)+4.5rem)] lg:pt-6
+          pb-[calc(env(safe-area-inset-bottom,0px)+5rem)] lg:pb-6
+          px-4 sm:px-6 lg:px-8"
       >
         <AnimatePresence mode="wait">
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.25 }}
+            className="py-2 sm:py-4 lg:py-6"
           >
             <Outlet />
           </motion.div>
@@ -58,12 +68,12 @@ function App() {
       <ErrorBoundary>
         <BrowserRouter>
           <Routes>
-            {/* Public Routes */}
+            {/* Public */}
             <Route path="/" element={<Landing />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/auth/callback" element={<Auth />} />
 
-            {/* Protected Routes with Sidebar Layout */}
+            {/* Protected with Layout */}
             <Route element={<ProtectedRoute><AppLayout /></ProtectedRoute>}>
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/notes" element={<Notes />} />
@@ -75,18 +85,14 @@ function App() {
           </Routes>
         </BrowserRouter>
 
-        {/* Toast Notifications */}
         <Toaster
-          position="top-right"
+          position="top-center"
           toastOptions={{
-            style: {
-              borderRadius: '12px',
-              padding: '12px 16px',
-              fontSize: '14px',
-            },
+            style: { borderRadius: '12px', padding: '12px 16px', fontSize: '14px' },
           }}
           richColors
           closeButton
+          mobileOffset={60}
         />
       </ErrorBoundary>
     </QueryClientProvider>

@@ -8,7 +8,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
       },
       colors: {
         primary: {
@@ -35,6 +35,20 @@ export default {
           600: '#059669',
         },
       },
+      screens: {
+        'xs': '375px',     // iPhone SE / small phones
+        'sm': '640px',     // Large phones / landscape
+        'md': '768px',     // Tablets
+        'lg': '1024px',    // Desktop start (sidebar appears here)
+        'xl': '1280px',
+        '2xl': '1536px',
+      },
+      spacing: {
+        'safe-top': 'env(safe-area-inset-top)',
+        'safe-bottom': 'env(safe-area-inset-bottom)',
+        'safe-left': 'env(safe-area-inset-left)',
+        'safe-right': 'env(safe-area-inset-right)',
+      },
       animation: {
         'float': 'float 6s ease-in-out infinite',
         'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
@@ -43,7 +57,6 @@ export default {
         'slide-in-right': 'slideInRight 0.3s ease-out',
         'bounce-subtle': 'bounceSubtle 2s ease-in-out infinite',
         'gradient': 'gradient 8s ease infinite',
-        'count-up': 'countUp 2s ease-out',
       },
       keyframes: {
         float: {
@@ -70,9 +83,6 @@ export default {
           '0%, 100%': { backgroundPosition: '0% 50%' },
           '50%': { backgroundPosition: '100% 50%' },
         },
-      },
-      backdropBlur: {
-        xs: '2px',
       },
     },
   },
